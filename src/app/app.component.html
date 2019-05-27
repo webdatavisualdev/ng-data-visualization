@@ -1,21 +1,117 @@
-<!--The content below is only a placeholder and can be replaced.-->
-<div style="text-align:center">
-  <h1>
-    Welcome to {{ title }}!
-  </h1>
-  <img width="300" alt="Angular Logo" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNTAgMjUwIj4KICAgIDxwYXRoIGZpbGw9IiNERDAwMzEiIGQ9Ik0xMjUgMzBMMzEuOSA2My4ybDE0LjIgMTIzLjFMMTI1IDIzMGw3OC45LTQzLjcgMTQuMi0xMjMuMXoiIC8+CiAgICA8cGF0aCBmaWxsPSIjQzMwMDJGIiBkPSJNMTI1IDMwdjIyLjItLjFWMjMwbDc4LjktNDMuNyAxNC4yLTEyMy4xTDEyNSAzMHoiIC8+CiAgICA8cGF0aCAgZmlsbD0iI0ZGRkZGRiIgZD0iTTEyNSA1Mi4xTDY2LjggMTgyLjZoMjEuN2wxMS43LTI5LjJoNDkuNGwxMS43IDI5LjJIMTgzTDEyNSA1Mi4xem0xNyA4My4zaC0zNGwxNy00MC45IDE3IDQwLjl6IiAvPgogIDwvc3ZnPg==">
-</div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://angular.io/cli">CLI Documentation</a></h2>
-  </li>
-  <li>
-    <h2><a target="_blank" rel="noopener" href="https://blog.angular.io/">Angular blog</a></h2>
-  </li>
-</ul>
+<mat-horizontal-stepper labelPosition="bottom" #stepper (selectionChange)="changeStep($event)">
+  <mat-step *ngFor="let s of steps">
+    <ng-template matStepLabel>{{s}}</ng-template>
+  </mat-step>
+</mat-horizontal-stepper>
 
-<router-outlet></router-outlet>
+<ng-container [ngSwitch]="stepperIndex">
+  <div class="d-flex justify-content-between align-items-center page-content" *ngSwitchCase="0">
+    <div class="pl-10">
+      <h2 class="page-title">Street List<br>Register of Nantucketers<br>Updated Annually</h2>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="red">brightness_1</mat-icon>
+        <span>Street List (Female)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="green">brightness_1</mat-icon>
+        <span>Street List (Male)</span>
+      </div>
+    </div>
+    <app-circle-pack id="chart1" size="1000" [data]="streetList" title="NANTUCKET<br>STREET LIST<br>{{getNumberOfList(streetList)}}" class="flex-1"></app-circle-pack>
+  </div>
+  <div class="d-flex justify-content-between page-content" *ngSwitchCase="1">
+    <div class="pl-10 mt-10">
+      <h2 class="page-title"><strong>Civis Adults</strong><br>250 million</h2>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="pink">brightness_1</mat-icon>
+        <span>Civis (Female)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="blue">brightness_1</mat-icon>
+        <span>Civis (Male)</span>
+      </div>
+    </div>
+    <app-circle-pack id="chart2" size="1500" [data]="civisList" class="flex-1"></app-circle-pack>
+  </div>
+  <div class="d-flex justify-content-between page-content" *ngSwitchCase="2">
+    <div class="text-center flex-1 d-flex flex-column">
+      <h2 class="page-title position-relative">CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisList)}}</h2>
+      <app-circle-pack id="chart3" size="200" [data]="civisList"></app-circle-pack>
+    </div>
+    <app-circle-pack id="chart4" size="1200" [data]="civisList" title="CIVIS<br>NANTUCKETERS<br>NOT!" class="flex-1"></app-circle-pack>
+  </div>
+  <div class="d-flex justify-content-between page-content" *ngSwitchCase="3">
+    <app-circle-pack id="chart5" size="1200" [data]="civisList" title="CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisList)}}" class="flex-1"></app-circle-pack>
+  </div>
+  <div class="d-flex justify-content-between page-content" *ngSwitchCase="4">
+    <app-circle-pack id="chart6" size="700" [data]="civisList" title="CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisList)}}" class="flex-1"></app-circle-pack>
+    <app-circle-pack id="chart7" size="1500" [data]="streetList" title="NANTUCKET<br>STREET LIST<br>{{getNumberOfList(streetList)}}" class="flex-1"></app-circle-pack>
+  </div>
+  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="5">
+    <div class="pl-5">
+      <div class="d-flex page-sub-title">
+        <mat-icon class="pink">brightness_1</mat-icon>
+        <span>Civis (Female)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="blue">brightness_1</mat-icon>
+        <span>Civis (Male)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="red">brightness_1</mat-icon>
+        <span>Street List (Female)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="green">brightness_1</mat-icon>
+        <span>Street List (Male)</span>
+      </div>
+    </div>
+    <app-circle-pack id="chart8" size="1500" [data]="civisStreetList" title="ADULTS<br>{{getNumberOfList(civisStreetList)}}" class="flex-1"></app-circle-pack>
+  </div>
+  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="6">
+    <app-circle-pack id="chart9" size="1200" [data]="civisStreetList" class="flex-1"></app-circle-pack>
+    <div class="text-center flex-1 d-flex flex-column h-100">
+      <h2 class="page-title position-relative text-uppercase flex-1 d-flex align-items-end justify-content-center">Children<br>{{getNumberOfList(childList)}}</h2>
+      <app-circle-pack id="chart10" size="200" [data]="childList" class="flex-3"></app-circle-pack>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="7">
+    <app-circle-pack id="chart11" size="1200" [data]="civisStreetChildList" class="flex-1"></app-circle-pack>
+    <div class="text-center flex-1 d-flex flex-column h-100">
+      <h2 class="page-title position-relative text-uppercase flex-1 d-flex align-items-end justify-content-center">Foreign<br>nationals<br>{{getNumberOfList(foreignList)}}</h2>
+      <app-circle-pack id="chart12" size="100" [data]="foreignList" class="flex-3"></app-circle-pack>
+    </div>
+  </div>
+  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="8">
+    <div class="pl-5">
+      <div class="d-flex page-sub-title">
+        <mat-icon class="grey">brightness_1</mat-icon>
+        <span>Foreign Nationals</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="pink">brightness_1</mat-icon>
+        <span>Civis (Female)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="blue">brightness_1</mat-icon>
+        <span>Civis (Male)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="orange">brightness_1</mat-icon>
+        <span>Children</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="red">brightness_1</mat-icon>
+        <span>Street List (Female)</span>
+      </div>
+      <div class="d-flex page-sub-title">
+        <mat-icon class="green">brightness_1</mat-icon>
+        <span>Street List (Male)</span>
+      </div>
+    </div>
+    <app-circle-pack id="chart13" size="1500" [data]="totalList" class="flex-1"></app-circle-pack>
+    <div class="pr-5 text-right">
+      <h2 class="page-title text-uppercase">Permanent<br>residents<br>{{getNumberOfList(totalList)}}</h2>
+    </div>
+  </div>
+</ng-container>
