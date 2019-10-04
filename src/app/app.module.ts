@@ -7,11 +7,15 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CirclePackComponent } from './components/circle-pack/circle-pack.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { DoubleCirclePackComponent } from './components/double-circle-pack/double-circle-pack.component';
+import { RectPackComponent } from './components/rect-pack/rect-pack.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CirclePackComponent
+    CirclePackComponent,
+    DoubleCirclePackComponent,
+    RectPackComponent
   ],
   imports: [
     BrowserModule,

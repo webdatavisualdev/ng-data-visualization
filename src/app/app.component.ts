@@ -8,6 +8,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 })
 export class AppComponent implements OnInit {
   steps = [
+    'Estimating population',
     'Nantucket street list',
     'Civis adults',
     'Civis nantucketers not',
@@ -20,111 +21,311 @@ export class AppComponent implements OnInit {
   ];
 
   streetList = [{
-    name: 'male',
-    value: 5460,
-    color: 'green',
-  }, {
     name: 'female',
-    value: 5340,
-    color: 'red',
+    population: 5340,
+    color: '#ed6d68',
+    width: 12,
+    value: 60
+  }, {
+    name: 'male',
+    population: 5460,
+    color: '#75c46c',
+    width: 4,
+    value: 140
   }];
 
   civisList = [{
-    name: 'male',
-    value: 2320,
-    color: 'blue',
-  }, {
     name: 'female',
-    value: 2200,
-    color: 'deeppink',
+    population: 2200,
+    color: '#ec98cb',
+    width: 12,
+    value: 100
+  }, {
+    name: 'male',
+    population: 2320,
+    color: '#3091d7',
+    width: 4,
+    value: 200
   }];
 
-  childList = [{
-    value: 2580,
-    color: 'orange',
-  }];
+  civisTotalList = {
+    total: [{
+      name: 'female',
+      population: 7540,
+      color: '#ec98cb',
+      width: 12,
+      value: 100
+    }, {
+      name: 'male',
+      population: 7780,
+      color: '#3091d7',
+      width: 4,
+      value: 200
+    }],
+    right: [{
+      name: 'female',
+      population: 5340,
+      color: '#ec98cb',
+      width: 12,
+      value: 80
+    }, {
+      name: 'male',
+      population: 5460,
+      color: '#3091d7',
+      width: 4,
+      value: 160
+    }],
+    left: [{
+      name: 'female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 12,
+      value: 15
+    }, {
+      name: 'male',
+      population: 2320,
+      color: '#3091d7',
+      width: 4,
+      value: 30
+    }],
+  };
 
-  foreignList = [{
-    value: 400,
-    color: 'grey',
-  }];
+  civisAndStreetTotalList = {
+    total: [{
+      name: 'female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 12,
+      value: 15
+    }, {
+      name: 'male',
+      population: 2320,
+      color: '#3091d7',
+      width: 4,
+      value: 30
+    }],
+    right: [{
+      name: 'female',
+      population: 5340,
+      color: '#ed6d68',
+      width: 12,
+      value: 80
+    }, {
+      name: 'male',
+      population: 5460,
+      color: '#75c46c',
+      width: 4,
+      value: 160
+    }],
+    left: [{
+      name: 'female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 12,
+      value: 15
+    }, {
+      name: 'male',
+      population: 2320,
+      color: '#3091d7',
+      width: 4,
+      value: 30
+    }],
+  };
 
   civisStreetList = [{
-    name: 'male',
-    value: 5460,
-    type: 'street',
-    color: 'green',
+    name: 'civis-female',
+    population: 2200,
+    color: '#ec98cb',
+    width: 10,
+    value: 40
   }, {
-    name: 'female',
-    value: 5340,
-    type: 'street',
-    color: 'red',
+    name: 'civis-male',
+    population: 2320,
+    color: '#3091d7',
+    width: 5,
+    value: 70
   }, {
-    name: 'male',
-    value: 2320,
-    type: 'civis',
-    color: 'blue',
+    name: 'street-female',
+    population: 5340,
+    color: '#ed6d68',
+    width: 3,
+    value: 100
   }, {
-    name: 'female',
-    value: 2200,
-    type: 'civis',
-    color: 'deeppink',
+    name: 'street-male',
+    population: 5460,
+    color: '#75c46c',
+    width: 3,
+    value: 140
   }];
 
-  civisStreetChildList = [{
-    name: 'male',
-    value: 5460,
-    type: 'street',
-    color: 'green',
-  }, {
-    name: 'female',
-    value: 5340,
-    type: 'street',
-    color: 'red',
-  }, {
-    name: 'male',
-    value: 2320,
-    type: 'civis',
-    color: 'blue',
-  }, {
-    name: 'female',
-    value: 2200,
-    type: 'civis',
-    color: 'deeppink',
-  }, {
-    type: 'child',
-    value: 2580,
-    color: 'orange',
-  }];
+  childList = {
+    total: [{
+      name: 'civis-female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 10,
+      value: 40
+    }, {
+      name: 'civis-male',
+      population: 2320,
+      color: '#3091d7',
+      width: 5,
+      value: 70
+    }, {
+      name: 'street-female',
+      population: 5340,
+      color: '#ed6d68',
+      width: 3,
+      value: 100
+    }, {
+      name: 'street-male',
+      population: 5460,
+      color: '#75c46c',
+      width: 3,
+      value: 140
+    }],
+    left: [{
+      name: 'civis-female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 10,
+      value: 40
+    }, {
+      name: 'civis-male',
+      population: 2320,
+      color: '#3091d7',
+      width: 5,
+      value: 70
+    }, {
+      name: 'street-female',
+      population: 5340,
+      color: '#ed6d68',
+      width: 3,
+      value: 100
+    }, {
+      name: 'street-male',
+      population: 5460,
+      color: '#75c46c',
+      width: 3,
+      value: 140
+    }],
+    right: [{
+      name: 'child',
+      population: 2580,
+      color: '#f6a15a',
+      width: 12,
+      value: 15
+    }],
+  };
+
+  foreignList = {
+    total: [{
+      name: 'civis-female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 10,
+      value: 40
+    }, {
+      name: 'civis-male',
+      population: 2320,
+      color: '#3091d7',
+      width: 5,
+      value: 70
+    }, {
+      name: 'child',
+      population: 2580,
+      color: '#f6a15a',
+      width: 5,
+      value: 90
+    }, {
+      name: 'street-female',
+      population: 5340,
+      color: '#ed6d68',
+      width: 3,
+      value: 100
+    }, {
+      name: 'street-male',
+      population: 5460,
+      color: '#75c46c',
+      width: 3,
+      value: 140
+    }],
+    left: [{
+      name: 'civis-female',
+      population: 2200,
+      color: '#ec98cb',
+      width: 10,
+      value: 40
+    }, {
+      name: 'civis-male',
+      population: 2320,
+      color: '#3091d7',
+      width: 5,
+      value: 70
+    }, {
+      name: 'child',
+      population: 2580,
+      color: '#f6a15a',
+      width: 5,
+      value: 90
+    }, {
+      name: 'street-female',
+      population: 5340,
+      color: '#ed6d68',
+      width: 3,
+      value: 110
+    }, {
+      name: 'street-male',
+      population: 5460,
+      color: '#75c46c',
+      width: 3,
+      value: 150
+    }],
+    right: [{
+      name: 'foreign',
+      population: 400,
+      color: '#81bab5',
+      width: 5,
+      value: 15
+    }],
+  };
 
   totalList = [{
-    name: 'male',
-    value: 5460,
-    type: 'street',
-    color: 'green',
+    name: 'foreign',
+    population: 400,
+    color: '#81bab5',
+    width: 5,
+    value: 15
   }, {
-    name: 'female',
-    value: 5340,
-    type: 'street',
-    color: 'red',
+    name: 'civis-female',
+    population: 2200,
+    color: '#ec98cb',
+    width: 10,
+    value: 40
   }, {
-    name: 'male',
-    value: 2320,
-    type: 'civis',
-    color: 'blue',
+    name: 'civis-male',
+    population: 2320,
+    color: '#3091d7',
+    width: 5,
+    value: 70
   }, {
-    name: 'female',
-    value: 2200,
-    type: 'civis',
-    color: 'deeppink',
+    name: 'child',
+    population: 2580,
+    color: '#f6a15a',
+    width: 5,
+    value: 90
   }, {
-    type: 'child',
-    value: 2580,
-    color: 'orange',
+    name: 'street-female',
+    population: 5340,
+    color: '#ed6d68',
+    width: 3,
+    value: 110
   }, {
-    type: 'foreign',
-    value: 400,
-    color: 'grey',
+    name: 'street-male',
+    population: 5460,
+    color: '#75c46c',
+    width: 3,
+    value: 150
   }];
 
   stepperIndex = 0;
@@ -139,7 +340,7 @@ export class AppComponent implements OnInit {
   getNumberOfList(list) {
     let num = 0;
     list.forEach(l => {
-      num += l.value;
+      num += l.population;
     });
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   }

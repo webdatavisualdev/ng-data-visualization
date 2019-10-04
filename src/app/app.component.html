@@ -6,6 +6,17 @@
 
 <ng-container [ngSwitch]="stepperIndex">
   <div class="d-flex justify-content-between align-items-center page-content" *ngSwitchCase="0">
+    <div class="pl-10 pr-5">
+      <h2 class="page-title">Estimating<br>the Permanent<br>Population</h2>
+    </div>
+    <app-rect-pack 
+      id="chart0" 
+      [data]="civisList" 
+      class="flex-1">
+    </app-rect-pack>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center page-content" *ngSwitchCase="1">
     <div class="pl-10">
       <h2 class="page-title">Street List<br>Register of Nantucketers<br>Updated Annually</h2>
       <div class="d-flex page-sub-title">
@@ -17,9 +28,17 @@
         <span>Street List (Male)</span>
       </div>
     </div>
-    <app-circle-pack id="chart1" size="1000" [data]="streetList" title="NANTUCKET<br>STREET LIST<br>{{getNumberOfList(streetList)}}" class="flex-1"></app-circle-pack>
+    <app-circle-pack 
+      id="chart1" 
+      radius="8" 
+      [data]="streetList" 
+      titleStroke="#ed6d68" 
+      title="NANTUCKET  STREET LIST  {{getNumberOfList(streetList)}}" 
+      class="flex-1">
+    </app-circle-pack>
   </div>
-  <div class="d-flex justify-content-between page-content" *ngSwitchCase="1">
+
+  <div class="d-flex justify-content-between page-content" *ngSwitchCase="2">
     <div class="pl-10 mt-10">
       <h2 class="page-title"><strong>Civis Adults</strong><br>250 million</h2>
       <div class="d-flex page-sub-title">
@@ -31,23 +50,58 @@
         <span>Civis (Male)</span>
       </div>
     </div>
-    <app-circle-pack id="chart2" size="1500" [data]="civisList" class="flex-1"></app-circle-pack>
+    <app-circle-pack 
+      id="chart2"
+      [data]="civisList"
+      radius="8" 
+      class="flex-1">
+    </app-circle-pack>
   </div>
-  <div class="d-flex justify-content-between page-content" *ngSwitchCase="2">
-    <div class="text-center flex-1 d-flex flex-column">
-      <h2 class="page-title position-relative">CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisList)}}</h2>
-      <app-circle-pack id="chart3" size="200" [data]="civisList"></app-circle-pack>
+
+  <div class="page-content" *ngSwitchCase="3">
+    <div class="text-center position-absolute" [style.left]="'15%'">
+      <h2 class="page-title position-relative">CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisTotalList.left)}}</h2>
     </div>
-    <app-circle-pack id="chart4" size="1200" [data]="civisList" title="CIVIS<br>NANTUCKETERS<br>NOT!" class="flex-1"></app-circle-pack>
+    <app-double-circle-pack
+      id="chart4"
+      [data]="civisTotalList"
+      rightStroke="#ec98cb"
+      totalPosition="right"
+      rightTitle="CIVIS  NANTUCKETERS  NOT!"
+      class="position-absolute w-100">
+    </app-double-circle-pack>
   </div>
-  <div class="d-flex justify-content-between page-content" *ngSwitchCase="3">
-    <app-circle-pack id="chart5" size="1200" [data]="civisList" title="CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisList)}}" class="flex-1"></app-circle-pack>
-  </div>
+
   <div class="d-flex justify-content-between page-content" *ngSwitchCase="4">
-    <app-circle-pack id="chart6" size="700" [data]="civisList" title="CIVIS<br>NANTUCKETERS<br>{{getNumberOfList(civisList)}}" class="flex-1"></app-circle-pack>
-    <app-circle-pack id="chart7" size="1500" [data]="streetList" title="NANTUCKET<br>STREET LIST<br>{{getNumberOfList(streetList)}}" class="flex-1"></app-circle-pack>
+    <app-circle-pack 
+      id="chart5" 
+      radius="20"
+      titleStroke="#ec98cb"
+      [data]="civisTotalList.left" 
+      title="CIVIS  NANTUCKETERS  {{getNumberOfList(civisTotalList.left)}}" 
+      class="flex-1">
+    </app-circle-pack>
   </div>
-  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="5">
+
+  <div class="d-flex justify-content-between page-content" *ngSwitchCase="5">
+    <app-double-circle-pack 
+      id="chart6" 
+      [data]="civisAndStreetTotalList" 
+      leftStroke="#ec98cb" 
+      rightStroke="#ed6d68" 
+      totalStroke="#ec98cb" 
+      totalRadius="20"
+      leftRadius="15"
+      leftFontSize="35"
+      totalPosition="center"
+      totalTitle="CIVIS  NANTUCKETERS  {{getNumberOfList(civisTotalList.left)}}" 
+      leftTitle="CIVIS  NANTUCKETERS  {{getNumberOfList(civisList)}}"
+      rightTitle="NANTUCKET  STREET LIST  {{getNumberOfList(streetList)}}" 
+      class="position-absolute w-100">
+    </app-double-circle-pack>
+  </div>
+
+  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="6">
     <div class="pl-5">
       <div class="d-flex page-sub-title">
         <mat-icon class="pink">brightness_1</mat-icon>
@@ -66,23 +120,47 @@
         <span>Street List (Male)</span>
       </div>
     </div>
-    <app-circle-pack id="chart8" size="1500" [data]="civisStreetList" title="ADULTS<br>{{getNumberOfList(civisStreetList)}}" class="flex-1"></app-circle-pack>
+    <app-circle-pack 
+      id="chart8" 
+      titleStroke="#ec98cb"
+      [data]="civisStreetList" 
+      title="ADULTS  {{getNumberOfList(civisStreetList)}}" 
+      class="flex-1">
+    </app-circle-pack>
   </div>
-  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="6">
-    <app-circle-pack id="chart9" size="1200" [data]="civisStreetList" class="flex-1"></app-circle-pack>
-    <div class="text-center flex-1 d-flex flex-column h-100">
-      <h2 class="page-title position-relative text-uppercase flex-1 d-flex align-items-end justify-content-center">Children<br>{{getNumberOfList(childList)}}</h2>
-      <app-circle-pack id="chart10" size="200" [data]="childList" class="flex-3"></app-circle-pack>
-    </div>
-  </div>
+
   <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="7">
-    <app-circle-pack id="chart11" size="1200" [data]="civisStreetChildList" class="flex-1"></app-circle-pack>
-    <div class="text-center flex-1 d-flex flex-column h-100">
-      <h2 class="page-title position-relative text-uppercase flex-1 d-flex align-items-end justify-content-center">Foreign<br>nationals<br>{{getNumberOfList(foreignList)}}</h2>
-      <app-circle-pack id="chart12" size="100" [data]="foreignList" class="flex-3"></app-circle-pack>
+    <app-double-circle-pack 
+      id="chart9" 
+      [data]="childList" 
+      leftStroke="#ec98cb" 
+      rightStroke="#f6a15a" 
+      totalStroke="#ec98cb" 
+      totalPosition="center"
+      totalTitle="ADULTS  {{getNumberOfList(childList.left)}}" 
+      class="position-absolute w-100">
+    </app-double-circle-pack>
+    <div class="text-center position-absolute" [style.right]="'20%'" [style.margin-top]="'-200px'">
+      <h2 class="page-title position-relative text-uppercase flex-1 d-flex align-items-end justify-content-center">Children<br>{{getNumberOfList(childList.right)}}</h2>
     </div>
   </div>
+
   <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="8">
+    <app-double-circle-pack 
+      id="chart10" 
+      [data]="foreignList" 
+      leftStroke="#ec98cb" 
+      rightStroke="#f6a15a" 
+      totalStroke="#ec98cb" 
+      totalPosition="center"
+      class="position-absolute w-100">
+    </app-double-circle-pack>
+    <div class="text-center position-absolute" [style.right]="'20%'" [style.margin-top]="'-200px'">
+      <h2 class="page-title position-relative text-uppercase flex-1 d-flex align-items-end justify-content-center">Foreign<br>nationals<br>{{getNumberOfList(foreignList.right)}}</h2>
+    </div>
+  </div>
+
+  <div class="d-flex justify-content-between page-content align-items-center" *ngSwitchCase="9">
     <div class="pl-5">
       <div class="d-flex page-sub-title">
         <mat-icon class="grey">brightness_1</mat-icon>
@@ -109,7 +187,11 @@
         <span>Street List (Male)</span>
       </div>
     </div>
-    <app-circle-pack id="chart13" size="1500" [data]="totalList" class="flex-1"></app-circle-pack>
+    <app-circle-pack 
+      id="chart11" 
+      [data]="totalList" 
+      class="flex-1">
+    </app-circle-pack>
     <div class="pr-5 text-right">
       <h2 class="page-title text-uppercase">Permanent<br>residents<br>{{getNumberOfList(totalList)}}</h2>
     </div>

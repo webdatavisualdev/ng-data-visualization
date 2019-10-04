@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewChecked, AfterViewInit, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Component, AfterViewInit, Input, OnDestroy } from '@angular/core';
 import * as d3 from 'd3';
 
 @Component({
@@ -6,16 +6,14 @@ import * as d3 from 'd3';
   templateUrl: './circle-pack.component.html',
   styleUrls: ['./circle-pack.component.scss']
 })
-export class CirclePackComponent implements OnInit, AfterViewInit, OnDestroy {
+export class CirclePackComponent implements AfterViewInit, OnDestroy {
   @Input() data = [];
   @Input() title = '';
-  @Input() size = 0;
   @Input() id;
+  @Input() titleStroke;
+  @Input() radius = 8;
 
   constructor() { }
-
-  ngOnInit() {
-  }
 
   ngAfterViewInit() {
     const width = d3.select(`#${this.id} #chart`).node().getBoundingClientRect().width;
@@ -26,44 +24,66 @@ export class CirclePackComponent implements OnInit, AfterViewInit, OnDestroy {
         .attr('width', width)
         .attr('height', height);
 
-    const data = [];
-    let totalNum = 0;
+    let nodes = [];
     this.data.forEach(d => {
-      totalNum += d.value;
-    });
-    const divider = parseInt((totalNum / this.size).toFixed(), 10);
-    this.data.sort((a, b) => {
-      return a.value > b.value ? 1 : -1;
-    });
-    this.data.forEach((d) => {
-      for (let i = 0 ; i < parseInt((d.value / divider).toFixed(), 10) ; i ++) {
-        const radius = Math.random() * 10;
-        data.push({color: d.color, radius: radius > 7 ? radius : 7});
-      }
+      nodes = nodes.concat(d3.range(d.value * d.width).map(() => {
+        return {
+          type: d.name,
+          color: d.color,
+          value: d.value,
+          radius: Math.ceil(Math.random() * this.radius + 2)
+        };
+      }));
     });
 
-    const node = svg.append('g')
-      .selectAll('circle')
-      .data(data)
-      .enter()
-      .append('circle')
-        .attr('r', (d) => d.radius)
-        .attr('cx', width / 2)
-        .attr('cy', height / 2)
-        .style('fill', (d) => d.color)
-        .style('fill-opacity', 0.5);
+    const g = svg.append('g').attr('id', 'svg-right')
+      .attr('transform', `translate(${width / 2}, ${height / 2})`);
+    const node = g.selectAll('circle')
+      .data(nodes)
+      .enter().append('circle')
+      .attr('r', d => d.radius)
+      .attr('fill', d => d.color);
 
-    const simulation = d3.forceSimulation()
-        .force('center', d3.forceCenter().x(width / 2).y(height / 2))
-        .force('charge', d3.forceManyBody().strength(0.1))
-        .force('collide', d3.forceCollide().strength(0.1).radius(1).iterations(0.01));
+    d3.forceSimulation(nodes)
+      .force('collide', d3.forceCollide().strength(1).radius(d => d.radius + 0.3))
+      .force('r', d3.forceRadial(d => d.value).strength(0.1))
+      .on('tick', () => {
+        node.attr('cx', d => d.x)
+          .attr('cy', d => d.y);
+      })
+      .alphaTarget(0.005)
+      .alphaDecay(0.15);
 
-    simulation
-    .nodes(data)
-    .on('tick', () => {
-      node.attr('cx', d =>  d.x)
-        .attr('cy', d =>  d.y);
-    });
+    let y = -40;
+    const textG = svg.append('g')
+      .attr('transform', `translate(${width / 2}, ${height / 2})`);
+    const textLlines = this.title.trim().split('  ');
+    if (textLlines.length === 2) {
+      y = -20;
+    }
+    for (let tl = 0; tl < textLlines.length; tl++) {
+      textG.append('text')
+        .attr('opacity', 0)
+        .attr('y', () => {
+          return tl === 0 ? y : y += 50;
+        })
+        .attr('fill', '#ffffff')
+        .attr('font-size', 45)
+        .attr('paint-order', 'stroke')
+        .attr('stroke', this.titleStroke)
+        .attr('stroke-width', 9)
+        .attr('stroke-linecap', 'butt')
+        .attr('stroke-linejoin', 'miter')
+        .attr('class', 'name-text')
+        .text(textLlines[tl])
+        .attr('letter-spacing', 3)
+        .attr('text-anchor', 'middle')
+        .style('font-family', 'Roboto, sans-serif');
+      textG.selectAll('text')
+        .transition()
+        .duration(3000)
+        .style('opacity', 1);
+    }
   }
 
   ngOnDestroy() {
